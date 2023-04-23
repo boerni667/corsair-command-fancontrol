@@ -1,0 +1,10 @@
+[Unit]
+Description=Quick fan control software
+StandardOutput=syslog
+StandardError=syslog
+
+[Service]
+ExecStart=/usr/local/sbin/fancontrol
+
+[Install]
+WantedBy=multi-user.target
