@@ -1,10 +1,10 @@
 [Unit]
 Description=Quick fan control software
-StandardOutput=syslog
-StandardError=syslog
 
 [Service]
-ExecStart=/usr/local/sbin/fancontrol
+ExecStart=~/git/corsair-command-fancontrol/fancontrol.py
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target
