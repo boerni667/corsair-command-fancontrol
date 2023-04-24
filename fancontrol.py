@@ -49,6 +49,8 @@ class Fanspeed:
         self._set_attempts = 0
 
     def set_dc_speed(self,name,value):
+        with open(self.dc+name+"_enable") as outp:
+            outp.write("0")
         with open(self.dc+name,"wt") as outp:
             outp.write(str(value))
 
@@ -78,13 +80,13 @@ class Fanspeed:
             sleep(60)
 
     def temp_to_dc_pwm(self):
-        pwm = int((self.water_temp-30)*12.5)
+        pwm = 84.5+self.temp_to_pwm()*1.55
         if pwm < 100:
             return 0
         elif pwm > 255:
             return 255
         else:
-            return pwm
+            return int(pwm)
 
     def temp_to_pwm(self):
         pwm = int((self.water_temp-30)*5)
