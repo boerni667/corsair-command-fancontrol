@@ -49,7 +49,7 @@ class Fanspeed:
         self._set_attempts = 0
 
     def set_dc_speed(self,name,value):
-        with open(self.dc+name+"_enable") as outp:
+        with open(self.dc+name+"_enable","wt") as outp:
             outp.write("0")
         with open(self.dc+name,"wt") as outp:
             outp.write(str(value))
