@@ -20,16 +20,22 @@ class Fanspeed:
         self.dev = dev
         self.rpm = 0
         self.dc = self.find_dc_device("it86")
-        self.init_status = self.dev.initialize()
+        self.init_device()
         self.water_temp = 0
         self.get_temp()
         self.set_speed_all(100)
         self.set_dc_speed("pwm1",255)
         self.set_dc_speed("pwm2",255)
-        while self.rpm < 2000:
-            self.get_rpm()
-            sleep(1)
         self.set_dc_speed("pwm1",200)
+
+    def init_device(self):
+        init = False
+        while init is not True:
+            try:
+                self.init_status = self.dev.initialize()
+                init = True
+            except:
+                pass
 
     def set_speed_all(self, speed):
         if speed == self.oldspeed:
@@ -80,7 +86,7 @@ class Fanspeed:
             sleep(60)
 
     def temp_to_dc_pwm(self):
-        pwm = 84.5+self.temp_to_pwm()*1.55
+        pwm = 100+self.temp_to_pwm()*1.55
         if pwm < 100:
             return 0
         elif pwm > 255:
@@ -90,8 +96,10 @@ class Fanspeed:
 
     def temp_to_pwm(self):
         pwm = int((self.water_temp-30)*5)
-        if pwm < 10:
+        if self.water_temp<25:
             return 0
+        elif pwm < 10:
+            return 10
         elif pwm > 100:
             return 100
         else:
